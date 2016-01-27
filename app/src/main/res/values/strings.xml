@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Daily Expense</string>
+    <string name="action_settings">Settings</string>
+    <string name="textDate">Date:</string>
+    <string name="textSupplier">Supplier:</string>
+    <string name="textTIN">TIN Suppier:</string>
+    <string name="testAmount">Amount: Php</string>
+    <string name="textDebit">Debit label:</string>
+    <string name="textCredit">Credit label:</string>
+    <string name="textTitle">Expense Summary</string>
+</resources>
