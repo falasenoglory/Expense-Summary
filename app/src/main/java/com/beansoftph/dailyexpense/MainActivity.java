@@ -19,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.beansoftph.models.AmountDesignation;
+import com.beansoftph.models.ChartOfAccounts;
+import com.beansoftph.models.ReceiptType;
+import com.beansoftph.models.Supplier;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -50,7 +53,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imbUploadPhoto;
     private int month, day, year;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    private ArrayList<AmountDesignation>data= new ArrayList<>();
+
+    //------------- LIST ---------------------------
+    private ArrayList<AmountDesignation>AmoList= new ArrayList<>();
+    private ArrayList<ChartOfAccounts>ChaList= new ArrayList<>();
+    private ArrayList<ReceiptType>RecListt= new ArrayList<>();
+    private ArrayList<Supplier>SupList= new ArrayList<>();
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -104,12 +113,10 @@ public class MainActivity extends AppCompatActivity {
 
         ParseAmountDesignation();
 
-
     }
 
     public void ParseAmountDesignation()
     {
-
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Amount_designation");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -124,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         ad = new AmountDesignation(obj.getString("Type"),
                                 obj.getObjectId());
 
-                        data.add(ad);
+                        AmoList.add(ad);
 
 
                     }//End if
