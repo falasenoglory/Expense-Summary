@@ -63,7 +63,9 @@
     android:background="@drawable/edtstyle"
     android:textSize="@dimen/fontSize"
     android:layout_below="@+id/textView"
-    android:layout_toStartOf="@+id/imgcalendar" />
+    android:layout_toStartOf="@+id/imgcalendar"
+    android:padding="@dimen/margintop"
+    android:editable="false"/>
 
 <TextView
     android:layout_width="wrap_content"
@@ -83,6 +85,7 @@
     android:layout_below="@+id/textView2"
     android:background="@drawable/edtstyle"
     android:layout_marginTop="@dimen/margintop"
+    android:padding="@dimen/margintop"
     android:spinnerMode="dropdown"
     android:layout_alignStart="@+id/textView2"
     android:layout_alignEnd="@+id/txtSuppliersTIN" />
@@ -103,11 +106,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:inputType="text"
+    android:padding="@dimen/margintop"
     android:background="@drawable/edtstyle"
     android:textSize="@dimen/fontSize"
     android:layout_below="@+id/textView3"
     android:layout_marginTop="@dimen/margintop"
-    android:layout_alignParentEnd="true" />
+    android:layout_alignParentEnd="true"
+    android:editable="false" />
 
 <TextView
     android:layout_width="wrap_content"
@@ -125,6 +130,7 @@
     android:id="@+id/spnTypeofReceipt"
     android:background="@drawable/edtstyle"
     android:spinnerMode="dropdown"
+            android:padding="@dimen/margintop"
     android:layout_below="@+id/textView4"
     android:layout_alignStart="@+id/textView4"
     android:layout_alignEnd="@+id/spnSupplierName"
@@ -145,6 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:padding="@dimen/margintop"
             android:background="@drawable/edtstyle"
             android:textSize="@dimen/fontSize"
             android:layout_below="@+id/textView5"
@@ -167,7 +174,8 @@
             android:layout_below="@+id/d1"
             android:layout_alignStart="@+id/textView4"
             android:layout_alignEnd="@+id/spnSupplierName"
-            android:layout_marginTop="@dimen/margintop"/>
+            android:layout_marginTop="@dimen/margintop"
+            android:padding="@dimen/margintop"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -186,7 +194,8 @@
             android:layout_below="@+id/d2"
             android:layout_alignStart="@+id/d2"
             android:layout_alignEnd="@+id/spnSupplierName"
-            android:layout_marginTop="@dimen/margintop"/>
+            android:layout_marginTop="@dimen/margintop"
+            android:padding="@dimen/margintop"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -206,7 +215,8 @@
             android:layout_below="@+id/d3"
             android:layout_alignStart="@+id/d2"
             android:layout_alignEnd="@+id/spnSupplierName"
-            android:layout_marginTop="@dimen/margintop"/>
+            android:layout_marginTop="@dimen/margintop"
+            android:padding="@dimen/margintop"/>
 
         <ImageButton
             android:layout_width="wrap_content"
