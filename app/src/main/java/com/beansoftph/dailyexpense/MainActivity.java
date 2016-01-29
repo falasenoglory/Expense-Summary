@@ -2,22 +2,15 @@ package com.beansoftph.dailyexpense;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.net.Uri;
-import android.opengl.Matrix;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -25,14 +18,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.beansoftph.models.AmountDesignation;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imbUploadPhoto;
     private int month, day, year;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private ArrayList<AmountDesignation>data= new ArrayList<>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -85,10 +86,7 @@ public class MainActivity extends AppCompatActivity {
         imgCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showDialog(999);
-
-
             }
         });
         imbUploadPhoto.setOnClickListener(new View.OnClickListener() {
@@ -96,17 +94,35 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showPhotoGallery(v);
             }
-
-
         });
         imbTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takephoto(v);
             }
-
-
         });
+
+
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Amount_designation");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+
+                if (e == null) {
+                    AmountDesignation ad = null;
+                    ParseObject obj;
+                    for (int i = 0; i < objects.size(); i++) {
+
+                        obj = objects.get(i);
+                        ad = new AmountDesignation(obj.getString("Type"),
+                                obj.getObjectId());
+
+                        data.add(ad);
+
+
+                    }//End if
+                }}});
 
     }
 

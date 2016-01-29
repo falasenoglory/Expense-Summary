@@ -7,9 +7,11 @@ package com.beansoftph.models;
 public class ChartOfAccounts {
 
     private String AccountName;
+    private String CObjectID;
 
-    public ChartOfAccounts(String accountName) {
+    public ChartOfAccounts(String accountName, String CObjectID) {
         AccountName = accountName;
+        this.CObjectID = CObjectID;
     }
 
     public String getAccountName() {
@@ -18,5 +20,13 @@ public class ChartOfAccounts {
 
     public void setAccountName(String accountName) {
         AccountName = accountName;
+    }
+
+    public String getCObjectID() {
+        return CObjectID;
+    }
+
+    public void setCObjectID(String CObjectID) {
+        this.CObjectID = CObjectID;
     }
 }

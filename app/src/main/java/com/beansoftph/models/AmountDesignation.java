@@ -6,9 +6,11 @@ package com.beansoftph.models;
 public class AmountDesignation {
 
     private String  AmountDesig;
+    private String AObjectID;
 
-    public AmountDesignation(String amountDesig) {
+    public AmountDesignation(String amountDesig, String AObjectID) {
         AmountDesig = amountDesig;
+        this.AObjectID = AObjectID;
     }
 
     public String getAmountDesig() {
@@ -17,5 +19,13 @@ public class AmountDesignation {
 
     public void setAmountDesig(String amountDesig) {
         AmountDesig = amountDesig;
+    }
+
+    public String getAObjectID() {
+        return AObjectID;
+    }
+
+    public void setAObjectID(String AObjectID) {
+        this.AObjectID = AObjectID;
     }
 }
