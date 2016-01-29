@@ -102,7 +102,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ParseAmountDesignation();
 
+
+    }
+
+    public void ParseAmountDesignation()
+    {
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Amount_designation");
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -123,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }//End if
                 }}});
-
     }
 
 
