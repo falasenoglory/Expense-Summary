@@ -252,14 +252,7 @@
             android:layout_below="@id/btnTake"
 
             />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnSend"
-            android:src="@drawable/sendemail"
-            android:layout_below="@id/imgcampreview"
-            android:layout_alignParentEnd="true"
-            android:layout_alignStart="@id/txtAmount"/>
+
 
 
     </RelativeLayout>
