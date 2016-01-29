@@ -8,4 +8,11 @@
     <string name="textDebit">Debit label:</string>
     <string name="textCredit">Credit label:</string>
     <string name="textTitle">Expense Summary</string>
+    <string name="EnterDate">Enter Date</string>
+    <string name="suppliersName">Supplier\'s Name</string>
+    <string name="suppliersTIN">Supplier\'s TIN</string>
+    <string name="typeOfReceipt">Type of Receipt</string>
+    <string name="amountDesignation">Amount Designation</string>
+    <string name="debitLabel">Debit Label</string>
+    <string name="creditLabel">Credit Label</string>
 </resources>

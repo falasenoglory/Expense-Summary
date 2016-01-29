@@ -45,7 +45,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceMedium"
-    android:text="Enter Date"
+    android:text="@string/EnterDate"
+        android:hint="/MM/DD/YY/"
     android:id="@+id/textView"
     android:layout_marginTop="29dp"
         android:layout_below="@+id/textView7"
@@ -60,15 +61,15 @@
     android:layout_height="wrap_content"
     android:inputType="text"
     android:background="@drawable/edtstyle"
-    android:textSize="30sp"
+    android:textSize="@dimen/fontSize"
     android:layout_below="@+id/textView"
-    android:layout_toStartOf="@+id/imageView" />
+    android:layout_toStartOf="@+id/imgcalendar" />
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceMedium"
-    android:text="Supplier&apos;s Name"
+    android:text="@string/suppliersName"
     android:layout_marginTop="@dimen/margintop"
     android:id="@+id/textView2"
     android:layout_below="@+id/txtDate"
@@ -90,7 +91,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceMedium"
-    android:text="Supplier&apos;s TIN"
+    android:text="@string/suppliersTIN"
     android:id="@+id/textView3"
     android:layout_below="@+id/spnSupplierName"
     android:layout_alignStart="@+id/txtSuppliersTIN" />
@@ -103,7 +104,7 @@
     android:layout_height="wrap_content"
     android:inputType="text"
     android:background="@drawable/edtstyle"
-    android:textSize="30sp"
+    android:textSize="@dimen/fontSize"
     android:layout_below="@+id/textView3"
     android:layout_marginTop="@dimen/margintop"
     android:layout_alignParentEnd="true" />
@@ -112,7 +113,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceMedium"
-    android:text="Type of Receipt"
+    android:text="@string/typeOfReceipt"
     android:id="@+id/textView4"
     android:layout_marginTop="@dimen/margintop"
     android:layout_below="@+id/txtSuppliersTIN"
@@ -138,14 +139,14 @@
             android:layout_below="@+id/spnTypeofReceipt"
             android:layout_alignStart="@+id/spnTypeofReceipt" />
         <EditText
-            android:id="@+id/a1"
+            android:id="@+id/txtAmount"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:background="@drawable/edtstyle"
-            android:textSize="30sp"
+            android:textSize="@dimen/fontSize"
             android:layout_below="@+id/textView5"
             android:layout_marginTop="@dimen/margintop"
             android:layout_alignParentEnd="true" />
@@ -153,10 +154,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Amount Designation"
+            android:text="@string/amountDesignation"
             android:id="@+id/d1"
-            android:layout_below="@+id/a1"
-            android:layout_alignStart="@+id/a1" />
+            android:layout_below="@+id/txtAmount"
+            android:layout_alignStart="@+id/txtAmount" />
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -171,10 +172,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Debit Label"
+            android:text="@string/debitLabel"
             android:id="@+id/d2"
             android:layout_below="@+id/spnAmountDesignation"
-            android:layout_alignStart="@+id/a1"
+            android:layout_alignStart="@+id/txtAmount"
             android:layout_alignEnd="@+id/d1" />
         <Spinner
             android:layout_width="wrap_content"
@@ -191,10 +192,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Credit Label"
+            android:text="@string/creditLabel"
             android:id="@+id/d3"
             android:layout_below="@+id/spnDebitLabel"
-            android:layout_alignStart="@+id/a1"
+            android:layout_alignStart="@+id/txtAmount"
             android:layout_alignEnd="@+id/d2" />
         <Spinner
             android:layout_width="wrap_content"
@@ -214,7 +215,7 @@
             android:src="@drawable/uploadphoto"
             android:layout_below="@id/spnCreditLabel"
             android:layout_alignParentEnd="true"
-            android:layout_alignStart="@id/a1"/>
+            android:layout_alignStart="@id/txtAmount"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -222,12 +223,12 @@
             android:src="@drawable/takephoto"
             android:layout_below="@id/btnUpload"
             android:layout_alignParentEnd="true"
-            android:layout_alignStart="@id/a1"/>
+            android:layout_alignStart="@id/txtAmount"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView"
+            android:id="@+id/imgcalendar"
             android:src="@drawable/date"
             android:layout_below="@+id/textView"
             android:layout_alignParentEnd="true" />
