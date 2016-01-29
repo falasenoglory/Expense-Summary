@@ -2,9 +2,20 @@ package com.beansoftph.dailyexpense;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.net.Uri;
+import android.opengl.Matrix;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +27,11 @@ import android.widget.Spinner;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgCalendar;
     private ImageButton imbTakePhoto;
     private ImageButton imbUploadPhoto;
-    private int month,day,year;
+    private int month, day, year;
+    int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -56,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
         spnDebitLabel = (Spinner) findViewById(R.id.spnDebitLabel);
         spnCreditLabel = (Spinner) findViewById(R.id.spnCreditLabel);
         imgCalendar = (ImageView) findViewById(R.id.imgcalendar);
-
+        imgCameraPreview = (ImageView) findViewById(R.id.imgcampreview);
+        imbTakePhoto = (ImageButton) findViewById(R.id.btnTake);
+        imbUploadPhoto = (ImageButton) findViewById(R.id.btnUpload);
 
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -72,6 +91,22 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        imbUploadPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPhotoGallery(v);
+            }
+
+
+        });
+        imbTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takephoto(v);
+            }
+
+
+        });
 
     }
 
@@ -81,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO Auto-generated method stub
 
         if (id == 999) {
-            return new DatePickerDialog(this, myDateListener,year, month, day);
+            return new DatePickerDialog(this, myDateListener, year, month, day);
         }
         return null;
     }
@@ -93,31 +128,71 @@ public class MainActivity extends AppCompatActivity {
             // arg2 = month
             // arg3 = day
 
-            String date= (arg2+1)+"-"+arg3+"-"+arg1;
+            String date = (arg2 + 1) + "-" + arg3 + "-" + arg1;
             txtDate.setText(date);
         }
     };
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+
+    public void showPhotoGallery(View v) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(
+                Intent.createChooser(intent, "Select File"),
+                SELECT_FILE);
+
+    }
+
+    public void takephoto(View v) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_FILE) {
+                Bitmap bitmap = null;
+                Log.d("AddMemorabiliaActivity", "Intent data has " + data.getDataString());
+                Uri selectedImageUri = data.getData();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Log.d("AddMemorabiliaActivity", "bitmap value : " + bitmap);
+                imgCameraPreview.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 1000, 1000, false));
+
+
+            } else if (requestCode == REQUEST_CAMERA) {
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.JPEG,90, bytes);
+                File destination = new File(Environment.getExternalStorageDirectory(),
+                        System.currentTimeMillis() + ".jpg");
+                FileOutputStream fo;
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                imgCameraPreview.setImageBitmap(Bitmap.createScaledBitmap(thumbnail, 1000, 1000, false));
+
+            }
+
         }
 
-        return super.onOptionsItemSelected(item);
+
     }
-
-
 }
