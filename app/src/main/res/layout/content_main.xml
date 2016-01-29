@@ -243,6 +243,24 @@
             android:layout_below="@+id/textView"
             android:layout_alignParentEnd="true" />
 
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:id="@+id/imgcampreview"
+            android:layout_below="@id/btnTake"
+
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSend"
+            android:src="@drawable/sendemail"
+            android:layout_below="@id/imgcampreview"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@id/txtAmount"/>
+
 
     </RelativeLayout>
 
