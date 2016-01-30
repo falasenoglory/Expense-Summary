@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.beansoftph.models.AmountDesignation;
+import com.beansoftph.models.ReceiptType;
 import com.beansoftph.models.Supplier;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.parse.FindCallback;
@@ -64,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<AmountDesignation>data= new ArrayList<>();
     private ArrayList<Supplier>supp= new ArrayList<>();
     List<String> listSupp = new ArrayList<String>();
-    String suppname;
+    private ArrayList<ReceiptType>rec= new ArrayList<>();
+    List<String> listReceipt = new ArrayList<String>();
+    String suppname,receipt_type;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -121,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
 
         ParseAmountDesignation();
 
+        /// START OF SUPPLIER FUNCTIONALITIES
+
         Toast.makeText(getApplicationContext(), "Wa pa sa parse", Toast.LENGTH_LONG).show();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Supplier_Name");
         query.orderByAscending("createdAt");
@@ -157,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, listSupp);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
-        listSupp.add("..");
         listSupp.add("Others");
         dataAdapter.notifyDataSetChanged();
         spnSuppliersName.setAdapter(dataAdapter);
@@ -165,8 +169,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                suppname =  String.valueOf(adapterView.getItemAtPosition(i));
-                selectedspinSupp=i;
+                suppname = String.valueOf(adapterView.getItemAtPosition(i));
+                selectedspinSupp = i;
                 if (suppname != "Others") {
 
 
@@ -189,8 +193,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-                }
-                else{
+                } else {
                     // get prompts.xml view
                     LayoutInflater li = LayoutInflater.from(view.getContext());
                     View promptsView = li.inflate(R.layout.prompts, null);
@@ -205,27 +208,27 @@ public class MainActivity extends AppCompatActivity {
                             .findViewById(R.id.SupplierName);
                     final EditText SupplierTin = (EditText) promptsView
                             .findViewById(R.id.SupplierTin);
-                            SupplierTin.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    SupplierTin.setInputType(InputType.TYPE_CLASS_NUMBER);
 
                     // set dialog message
                     alertDialogBuilder
                             .setCancelable(false)
                             .setPositiveButton("OK",
                                     new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,int id) {
+                                        public void onClick(DialogInterface dialog, int id) {
                                             ParseObject newsupplier = new ParseObject("Supplier_Name");
-                                            if(SupplierName.getText()!=null&&SupplierTin.getText()!=null)
-                                            listSupp.add(SupplierName.getText().toString());
-                                            newsupplier.put("Name",SupplierName.getText().toString());
+                                            if (SupplierName.getText() != null && SupplierTin.getText() != null)
+                                                listSupp.add(SupplierName.getText().toString());
+                                            newsupplier.put("Name", SupplierName.getText().toString());
                                             newsupplier.put("Tin", SupplierTin.getText().toString());
                                             newsupplier.saveInBackground();
                                             txtSupplierTin.setText(SupplierTin.getText());
-                                            spnSuppliersName.setSelection(listSupp.size()-1);
+                                            spnSuppliersName.setSelection(listSupp.size() - 1);
                                         }
                                     })
                             .setNegativeButton("Cancel",
                                     new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,int id) {
+                                        public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
                                         }
                                     });
@@ -241,10 +244,115 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-            //nothing to do
+                //nothing to do
             }
         });
         dataAdapter.notifyDataSetChanged();
+        //END OF SUPPLIER FUNCTIONALITIES
+
+        // START OF TYPE OF RECEIPT FUNCTIONALITIES
+        Toast.makeText(getApplicationContext(), "Wa pa sa parse2", Toast.LENGTH_LONG).show();
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Type_of_receipt");
+        query2.orderByAscending("createdAt");
+        query2.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+
+                if (e == null) {
+                    ReceiptType receipt = null;
+                    ParseObject obj;
+                    for (int i = 0; i < objects.size(); i++) {
+
+                        obj = objects.get(i);
+                        receipt = new ReceiptType(obj.getObjectId(),
+                                obj.getString("Type"));
+
+                        rec.add(receipt);
+                        listReceipt.add(obj.getString("Type"));
+                        Log.d("MainActivity", "Hehe : " + obj.getString("Type"));
+                        Toast.makeText(getApplicationContext(), obj.getString("Type") + "Parse", Toast.LENGTH_LONG).show();
+
+
+                        Log.d("MainActivity", "Kasud sa if2");
+                    }//End if
+
+                }
+                Log.d("MainActivity", "Wa kasud sa if2 : " + e);
+            }
+        });
+
+
+        Toast.makeText(getApplicationContext(),"Gawas sa Parse", Toast.LENGTH_LONG).show();
+
+        ArrayAdapter<String> receiptAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, listReceipt);
+        receiptAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        receiptAdapter.notifyDataSetChanged();
+        listReceipt.add("Others");
+        receiptAdapter.notifyDataSetChanged();
+        spnTypeOfReceipt.setAdapter(receiptAdapter);
+        spnTypeOfReceipt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                receipt_type = String.valueOf(adapterView.getItemAtPosition(i));
+                selectedspinSupp = i;
+                if (receipt_type != "Others") {
+
+                    spnSuppliersName.setSelection(i);
+
+                } else {
+                    // get prompts.xml view
+                    LayoutInflater li = LayoutInflater.from(view.getContext());
+                    View promptsView = li.inflate(R.layout.prompts_tor, null);
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            view.getContext());
+
+                    // set prompts.xml to alertdialog builder
+                    alertDialogBuilder.setView(promptsView);
+
+                    final EditText etTOR = (EditText) promptsView
+                            .findViewById(R.id.TypeofReceipt);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            ParseObject newreceipt = new ParseObject("Type_of_receipt");
+                                            if (etTOR.getText() != null)
+                                                listReceipt.add(etTOR.getText().toString());
+                                            newreceipt.put("Type", etTOR.getText().toString());
+                                            newreceipt.saveInBackground();
+                                            spnTypeOfReceipt.setSelection(listReceipt.size() - 1);
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //nothing to do
+            }
+        });
+        receiptAdapter.notifyDataSetChanged();
+
+        // END OF TYPE OF RECEIPT FUNCTIONALITIES
+
     }
 
 
