@@ -12,10 +12,11 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="DzCHLhKcmR66CkRPu75dylLSFhyRaG5c0sWjHIvM" />
+            android:value="OSkPxyGfWfMw9ykWVKWhSn8TXva7jrcsUi4DhNjr" />
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="z1roGiNq6lrJ9ngE3JQTEZjQmnq4Ddexa5nS1gkN" />
+            android:value="azqj87cioZ5bIwqZYK0sA8RPjTYABjsmkjsZg46r" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

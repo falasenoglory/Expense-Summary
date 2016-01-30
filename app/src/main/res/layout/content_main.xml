@@ -79,8 +79,8 @@
      />
 
 <Spinner
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
     android:id="@+id/spnSupplierName"
     android:layout_below="@+id/textView2"
     android:background="@drawable/edtstyle"
@@ -88,7 +88,9 @@
     android:padding="@dimen/margintop"
     android:spinnerMode="dropdown"
     android:layout_alignStart="@+id/textView2"
-    android:layout_alignEnd="@+id/txtSuppliersTIN" />
+    android:layout_alignEnd="@+id/txtSuppliersTIN"
+
+     />
 
 <TextView
     android:layout_width="wrap_content"
@@ -125,8 +127,8 @@
     android:layout_alignStart="@+id/txtSuppliersTIN" />
 
         <Spinner
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
     android:id="@+id/spnTypeofReceipt"
     android:background="@drawable/edtstyle"
     android:spinnerMode="dropdown"
@@ -166,8 +168,8 @@
             android:layout_below="@+id/txtAmount"
             android:layout_alignStart="@+id/txtAmount" />
         <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/spnAmountDesignation"
             android:background="@drawable/edtstyle"
             android:spinnerMode="dropdown"
@@ -186,8 +188,8 @@
             android:layout_alignStart="@+id/txtAmount"
             android:layout_alignEnd="@+id/d1" />
         <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/spnDebitLabel"
             android:background="@drawable/edtstyle"
             android:spinnerMode="dropdown"
@@ -207,8 +209,8 @@
             android:layout_alignStart="@+id/txtAmount"
             android:layout_alignEnd="@+id/d2" />
         <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:id="@+id/spnCreditLabel"
             android:background="@drawable/edtstyle"
             android:spinnerMode="dropdown"
