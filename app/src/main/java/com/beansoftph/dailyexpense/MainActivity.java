@@ -5,16 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
@@ -30,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.beansoftph.models.AmountDesignation;
+import com.beansoftph.models.ChartOfAccounts;
 import com.beansoftph.models.ReceiptType;
 import com.beansoftph.models.Supplier;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -66,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
     int selectedspinSupp;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private ArrayList<AmountDesignation>data= new ArrayList<>();
+    List<String> Lad= new ArrayList<>();
+    String COA_type;
+
+    private ArrayList<ChartOfAccounts>COAL= new ArrayList<>();
+    List<String> COA= new ArrayList<>();
+    String ad_type;
+
+
+
     private ArrayList<Supplier>supp= new ArrayList<>();
     List<String> listSupp = new ArrayList<String>();
     private ArrayList<ReceiptType>rec= new ArrayList<>();
@@ -126,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ParseAmountDesignation();
+        //ParseAmountDesignation();
 
         /// START OF SUPPLIER FUNCTIONALITIES
 
@@ -153,22 +160,27 @@ public class MainActivity extends AppCompatActivity {
 
 
                         Log.d("MainActivity", "Kasud sa if");
-                    }//End if
+                    }
+                    listSupp.add("Others");
 
-                }
+                }//End if
                 Log.d("MainActivity", "Wa kasud sa if : " + e);
             }
         });
-
 
         Toast.makeText(getApplicationContext(),"Gawas sa Parse", Toast.LENGTH_LONG).show();
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, listSupp);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
-        listSupp.add("Others");
+        listSupp.add("...");
+
         dataAdapter.notifyDataSetChanged();
+
+
+        spnSuppliersName.setSelected(false);
         spnSuppliersName.setAdapter(dataAdapter);
+
         spnSuppliersName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -222,12 +234,16 @@ public class MainActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int id) {
                                             ParseObject newsupplier = new ParseObject("Supplier_Name");
                                             if (SupplierName.getText() != null && SupplierTin.getText() != null)
-                                                listSupp.add(SupplierName.getText().toString());
+                                            {
+                                                String holder= listSupp.get(listSupp.size()-1);
+                                                listSupp.set(listSupp.size()-1,SupplierName.getText().toString());
+                                                listSupp.add("Others");
+                                            }
                                             newsupplier.put("Name", SupplierName.getText().toString());
                                             newsupplier.put("Tin", SupplierTin.getText().toString());
                                             newsupplier.saveInBackground();
                                             txtSupplierTin.setText(SupplierTin.getText());
-                                            spnSuppliersName.setSelection(listSupp.size() - 1);
+                                            spnSuppliersName.setSelection(listSupp.size() - 2);
                                         }
                                     })
                             .setNegativeButton("Cancel",
@@ -242,6 +258,10 @@ public class MainActivity extends AppCompatActivity {
 
                     // show it
                     alertDialog.show();
+                    if(spnSuppliersName.getSelectedItem()=="Others")
+                    {
+                        spnSuppliersName.setSelection(0);
+                    }
 
                 }
             }
@@ -280,9 +300,10 @@ public class MainActivity extends AppCompatActivity {
 
 
                         Log.d("MainActivity", "Kasud sa if2");
-                    }//End if
+                    }
+                    listReceipt.add("Others");
 
-                }
+                }//End if
                 Log.d("MainActivity", "Wa kasud sa if2 : " + e);
             }
         });
@@ -293,9 +314,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> receiptAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, listReceipt);
         receiptAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         receiptAdapter.notifyDataSetChanged();
-        listReceipt.add("Others");
+
         receiptAdapter.notifyDataSetChanged();
         spnTypeOfReceipt.setAdapter(receiptAdapter);
+        listReceipt.add("...");
+        spnTypeOfReceipt.setSelected(false);
         spnTypeOfReceipt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -328,10 +351,14 @@ public class MainActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int id) {
                                             ParseObject newreceipt = new ParseObject("Type_of_receipt");
                                             if (etTOR.getText() != null)
-                                                listReceipt.add(etTOR.getText().toString());
+                                            {
+                                                String holder= listReceipt.get(listReceipt.size()-1);
+                                                listReceipt.set(listReceipt.size()-1,etTOR.getText().toString());
+                                                listReceipt.add("Others");
+                                            }
                                             newreceipt.put("Type", etTOR.getText().toString());
                                             newreceipt.saveInBackground();
-                                            spnTypeOfReceipt.setSelection(listReceipt.size() - 1);
+                                            spnTypeOfReceipt.setSelection(listReceipt.size() - 2);
                                         }
                                     })
                             .setNegativeButton("Cancel",
@@ -346,6 +373,10 @@ public class MainActivity extends AppCompatActivity {
 
                     // show it
                     alertDialog2.show();
+                    if(spnTypeOfReceipt.getSelectedItem()=="Others")
+                    {
+                        spnTypeOfReceipt.setSelection(0);
+                    }
 
                 }
             }
@@ -357,35 +388,310 @@ public class MainActivity extends AppCompatActivity {
         });
         receiptAdapter.notifyDataSetChanged();
 
-        
+
         // END OF TYPE OF RECEIPT FUNCTIONALITIES
 
-    }
-
-
-    public void ParseAmountDesignation()
-    {
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Amount_designation");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        // START AMOUNT DESIGNATION FUNCTIONALITIES
+        Toast.makeText(getApplicationContext(), "Wa pa sa parse2", Toast.LENGTH_LONG).show();
+        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Amount_designation");
+        query3.orderByAscending("createdAt");
+        query3.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
 
                 if (e == null) {
-                    AmountDesignation ad = null;
+                    AmountDesignation receipt = null;
                     ParseObject obj;
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        ad = new AmountDesignation(obj.getString("Type"),
+                        receipt = new AmountDesignation(obj.getObjectId(),
+                                obj.getString("Type"));
+
+                        data.add(receipt);
+                        Lad.add(obj.getString("Type"));
+                        Log.d("MainActivity", "Hehe : " + obj.getString("Type"));
+                        Toast.makeText(getApplicationContext(), obj.getString("Type") + "Parse", Toast.LENGTH_LONG).show();
+
+
+                        Log.d("MainActivity", "Kasud sa if2");
+                    }
+                    Lad.add("Others");
+
+                }//End if
+                Log.d("MainActivity", "Wa kasud sa if2 : " + e);
+            }
+        });
+
+
+        Toast.makeText(getApplicationContext(),"Gawas sa Parse", Toast.LENGTH_LONG).show();
+
+        ArrayAdapter<String> ADAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, Lad);
+        ADAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ADAdapter.notifyDataSetChanged();
+        spnAmountDesignation.setAdapter(ADAdapter);
+        Lad.add("...");
+        spnAmountDesignation.setSelected(false);
+        spnAmountDesignation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ad_type = String.valueOf(adapterView.getItemAtPosition(i));
+                selectedspinSupp = i;
+                if (ad_type != "Others") {
+
+                    spnAmountDesignation.setSelection(i);
+
+                } else {
+                    // get prompts.xml view
+                    LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                    View promptsView = li.inflate(R.layout.prompts_amount_designation, null);
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            MainActivity.this);
+
+                    // set prompts.xml to alertdialog builder
+                    alertDialogBuilder.setView(promptsView);
+
+                    final EditText etTOR = (EditText) promptsView
+                            .findViewById(R.id.TypeAD);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            ParseObject newreceipt = new ParseObject("Amount_designation");
+                                            if (etTOR.getText() != null)
+                                            {
+                                                String holder= Lad.get(Lad.size()-1);
+                                                Lad.set(Lad.size()-1,etTOR.getText().toString());
+                                                Lad.add("Others");
+                                            }
+                                            newreceipt.put("Type", etTOR.getText().toString());
+                                            newreceipt.saveInBackground();
+                                            spnAmountDesignation.setSelection(Lad.size() - 2);
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // create alert dialog
+                    AlertDialog alertDialog2 = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog2.show();
+                    if (spnAmountDesignation.getSelectedItem() == "Others") {
+                        spnAmountDesignation.setSelection(0);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //nothing to do
+            }
+        });
+        ADAdapter.notifyDataSetChanged();
+        // END OF AMOUNT DESIGNATION FUNCTIONALITY
+
+        // START CHART OF ACCOUNTS FUNCTIONALITIES
+
+        Toast.makeText(getApplicationContext(), "Wa pa sa parse2", Toast.LENGTH_LONG).show();
+        ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Chart_of_Accounts");
+        query4.orderByAscending("createdAt");
+        query4.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+
+                if (e == null) {
+                    ChartOfAccounts receipt = null;
+                    ParseObject obj;
+                    for (int i = 0; i < objects.size(); i++) {
+
+                        obj = objects.get(i);
+                        receipt = new ChartOfAccounts(obj.getString("Name_of_Account"),
                                 obj.getObjectId());
 
-                        data.add(ad);
+                        COAL.add(receipt);
+                        COA.add(obj.getString("Name_of_Account"));
+                        Log.d("MainActivity", "Hehe : " + obj.getString("Name_of_Account"));
+                        Toast.makeText(getApplicationContext(), obj.getString("Name_of_Account") + "Parse", Toast.LENGTH_LONG).show();
 
 
-                    }//End if
-                }}});
+                        Log.d("MainActivity", "Kasud sa if2");
+                    }
+                    COA.add("Others");
+
+                }//End if
+                Log.d("MainActivity", "Wa kasud sa if2 : " + e);
+            }
+        });
+
+
+        ArrayAdapter<String> COAAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, COA);
+        COAAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        COAAdapter.notifyDataSetChanged();
+        COA.add("...");
+        spnDebitLabel.setAdapter(COAAdapter);
+        spnCreditLabel.setAdapter(COAAdapter);
+
+        spnDebitLabel.setSelected(false);
+        spnCreditLabel.setSelected(false);
+        spnDebitLabel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                COA_type = String.valueOf(adapterView.getItemAtPosition(i));
+                selectedspinSupp = i;
+                if (COA_type != "Others") {
+
+                    spnDebitLabel.setSelection(i);
+
+                } else {
+                    // get prompts.xml view
+                    LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                    View promptsView = li.inflate(R.layout.prompts_coa, null);
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            MainActivity.this);
+
+                    // set prompts_coa.xml to alertdialog builder
+                    alertDialogBuilder.setView(promptsView);
+
+                    final EditText etTOR = (EditText) promptsView
+                            .findViewById(R.id.txtCOA);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            ParseObject newreceipt = new ParseObject("Chart_of_Accounts");
+                                            if (etTOR.getText() != null) {
+                                                String holder = COA.get(COA.size() - 1);
+                                                COA.set(COA.size() - 1, etTOR.getText().toString());
+                                                COA.add("Others");
+                                            }
+                                            newreceipt.put("Name_of_Account", etTOR.getText().toString());
+                                            newreceipt.saveInBackground();
+                                            spnDebitLabel.setSelection(COA.size() - 2);
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // create alert dialog
+                    AlertDialog alertDialog2 = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog2.show();
+                    if (spnDebitLabel.getSelectedItem() == "Others") {
+                        spnDebitLabel.setSelection(0);
+                    }
+
+                }
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //nothing to do
+            }
+        });
+
+        spnCreditLabel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                COA_type = String.valueOf(adapterView.getItemAtPosition(i));
+                selectedspinSupp = i;
+                if (COA_type != "Others") {
+
+                    spnCreditLabel.setSelection(i);
+
+                } else {
+                    // get prompts.xml view
+                    LayoutInflater li = LayoutInflater.from(MainActivity.this);
+                    View promptsView = li.inflate(R.layout.prompts_coa, null);
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            MainActivity.this);
+
+                    // set prompts_coa.xml to alertdialog builder
+                    alertDialogBuilder.setView(promptsView);
+
+                    final EditText etTOR = (EditText) promptsView
+                            .findViewById(R.id.txtCOA);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setCancelable(false)
+                            .setPositiveButton("OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            ParseObject newreceipt = new ParseObject("Chart_of_Accounts");
+                                            if (etTOR.getText() != null) {
+                                                String holder= COA.get(COA.size()-1);
+                                                COA.set(COA.size()-1,etTOR.getText().toString());
+                                                COA.add("Others");
+                                            }
+                                            newreceipt.put("Name_of_Account", etTOR.getText().toString());
+                                            newreceipt.saveInBackground();
+                                            spnCreditLabel.setSelection(COA.size() - 2);
+                                        }
+                                    })
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // create alert dialog
+                    AlertDialog alertDialog2 = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog2.show();
+                    if (spnCreditLabel.getSelectedItem() == "Others") {
+                        spnCreditLabel.setSelection(0);
+                    }
+
+                }
+            }
+
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //nothing to do
+            }
+        });
+
+
+        COAAdapter.notifyDataSetChanged();
+
+
+
+        // END OF CHART OF ACCOUNTS FUNCTIONALITY
+
+
+
+
     }
+
+
 
 
     @Override
