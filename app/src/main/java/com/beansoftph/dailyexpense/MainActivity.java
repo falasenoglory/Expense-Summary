@@ -2,8 +2,10 @@ package com.beansoftph.dailyexpense;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<ReceiptType>rec= new ArrayList<>();
     List<String> listReceipt = new ArrayList<String>();
     String suppname,receipt_type;
+    Context context;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -96,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         imgCameraPreview = (ImageView) findViewById(R.id.imgcampreview);
         imbTakePhoto = (ImageButton) findViewById(R.id.btnTake);
         imbUploadPhoto = (ImageButton) findViewById(R.id.btnUpload);
-
+        context = this;
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -195,11 +199,11 @@ public class MainActivity extends AppCompatActivity {
                     });
                 } else {
                     // get prompts.xml view
-                    LayoutInflater li = LayoutInflater.from(view.getContext());
+                    LayoutInflater li = LayoutInflater.from(MainActivity.this);
                     View promptsView = li.inflate(R.layout.prompts, null);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                            view.getContext());
+                            MainActivity.this);
 
                     // set prompts.xml to alertdialog builder
                     alertDialogBuilder.setView(promptsView);
@@ -241,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             }
+
+
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -302,11 +308,11 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
                     // get prompts.xml view
-                    LayoutInflater li = LayoutInflater.from(view.getContext());
+                    LayoutInflater li = LayoutInflater.from(MainActivity.this);
                     View promptsView = li.inflate(R.layout.prompts_tor, null);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                            view.getContext());
+                            MainActivity.this);
 
                     // set prompts.xml to alertdialog builder
                     alertDialogBuilder.setView(promptsView);
@@ -336,10 +342,10 @@ public class MainActivity extends AppCompatActivity {
                                     });
 
                     // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    AlertDialog alertDialog2 = alertDialogBuilder.create();
 
                     // show it
-                    alertDialog.show();
+                    alertDialog2.show();
 
                 }
             }
@@ -351,6 +357,7 @@ public class MainActivity extends AppCompatActivity {
         });
         receiptAdapter.notifyDataSetChanged();
 
+        
         // END OF TYPE OF RECEIPT FUNCTIONALITIES
 
     }
