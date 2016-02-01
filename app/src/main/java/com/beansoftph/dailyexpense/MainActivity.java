@@ -692,37 +692,38 @@ public class MainActivity extends AppCompatActivity {
         // END OF CHART OF ACCOUNTS FUNCTIONALITY
         // START OF SENDING EMAIL FUNCTIONALITY
 
-        String columnString =   "\"Date\",\"Suppliers Name\",\"Suppliers Tin\",\"Type of Receipt\",\"Amount\",\"AmountDesignation\",\"Debit\",\"Credit\"";
-        String dataString   =   "\"" + txtDate.getText() +"\",\"" + spnSuppliersName.getSelectedItem().toString() + "\",\"" + txtSupplierTin.getText() + "\",\"" + spnTypeOfReceipt.getSelectedItem().toString()+ "\",\"" + txtAmount.getText()+ "\",\"" + spnAmountDesignation.getSelectedItem().toString()+ "\",\"" + spnDebitLabel.getSelectedItem().toString()+ "\",\"" +spnCreditLabel.getSelectedItem().toString() + "\"";
-        String combinedString = columnString + "\n" + dataString;
-
-
-        File root   = Environment.getExternalStorageDirectory();
-        if (root.canWrite()){
-            File dir    =   new File (root.getAbsolutePath() + "/PersonData");
-            dir.mkdirs();
-            file   =   new File(dir, "Data.csv");
-            FileOutputStream out   =   null;
-            try {
-                out = new FileOutputStream(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
-                out.write(combinedString.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         imbSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String columnString =   "\"Date\",\"Suppliers Name\",\"Suppliers Tin\",\"Type of Receipt\",\"Amount\",\"AmountDesignation\",\"Debit\",\"Credit\"";
+                String dataString   =   "\"" + txtDate.getText() +"\",\"" + spnSuppliersName.getSelectedItem().toString() + "\",\"" + txtSupplierTin.getText() + "\",\"" + spnTypeOfReceipt.getSelectedItem().toString()+ "\",\"" + txtAmount.getText()+ "\",\"" + spnAmountDesignation.getSelectedItem().toString()+ "\",\"" + spnDebitLabel.getSelectedItem().toString()+ "\",\"" +spnCreditLabel.getSelectedItem().toString() + "\"";
+                String combinedString = columnString + "\n" + dataString;
+
+
+                File root   = Environment.getExternalStorageDirectory();
+                if (root.canWrite()){
+                    File dir    =   new File (root.getAbsolutePath() + "/PersonData");
+                    dir.mkdirs();
+                    file   =   new File(dir, "Data.csv");
+                    FileOutputStream out   =   null;
+                    try {
+                        out = new FileOutputStream(file);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        out.write(combinedString.getBytes());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 Uri u1 = null;
                 u1 = Uri.fromFile(file);
 
