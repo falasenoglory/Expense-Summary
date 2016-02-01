@@ -60,9 +60,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgCalendar;
     private ImageButton imbTakePhoto;
     private ImageButton imbUploadPhoto;
+    private ImageButton imbSend;
     private int month, day, year;
     int selectedspinSupp;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    File file   = null;
+    Bitmap thumbnail;
+    File pic;
     private ArrayList<AmountDesignation>data= new ArrayList<>();
     List<String> Lad= new ArrayList<>();
     String COA_type;
@@ -107,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         imgCameraPreview = (ImageView) findViewById(R.id.imgcampreview);
         imbTakePhoto = (ImageButton) findViewById(R.id.btnTake);
         imbUploadPhoto = (ImageButton) findViewById(R.id.btnUpload);
+        imbSend = (ImageButton) findViewById(R.id.btnSend);
         context = this;
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -685,11 +690,66 @@ public class MainActivity extends AppCompatActivity {
 
 
         // END OF CHART OF ACCOUNTS FUNCTIONALITY
+        // START OF SENDING EMAIL FUNCTIONALITY
 
+        String columnString =   "\"Date\",\"Suppliers Name\",\"Suppliers Tin\",\"Type of Receipt\",\"Amount\",\"AmountDesignation\",\"Debit\",\"Credit\"";
+        String dataString   =   "\"" + txtDate.getText() +"\",\"" + spnSuppliersName.getSelectedItem().toString() + "\",\"" + txtSupplierTin.getText() + "\",\"" + spnTypeOfReceipt.getSelectedItem().toString()+ "\",\"" + txtAmount.getText()+ "\",\"" + spnAmountDesignation.getSelectedItem().toString()+ "\",\"" + spnDebitLabel.getSelectedItem().toString()+ "\",\"" +spnCreditLabel.getSelectedItem().toString() + "\"";
+        String combinedString = columnString + "\n" + dataString;
+
+
+        File root   = Environment.getExternalStorageDirectory();
+        if (root.canWrite()){
+            File dir    =   new File (root.getAbsolutePath() + "/PersonData");
+            dir.mkdirs();
+            file   =   new File(dir, "Data.csv");
+            FileOutputStream out   =   null;
+            try {
+                out = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                out.write(combinedString.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        imbSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri u1 = null;
+                u1 = Uri.fromFile(file);
+
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"chanferolino@gmail.com"});
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Expense Summary");
+                sendIntent.putExtra(Intent.EXTRA_STREAM, u1);
+                sendIntent.setType("text/html");
+                startActivity(sendIntent);
+
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"chanferolino@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT,"On The Job");
+                Log.d("URI@!@#!#!@##!", Uri.fromFile(pic).toString() + "   " + pic.exists());
+                i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(pic));
+
+                i.setType("image/jpeg");
+                startActivity(Intent.createChooser(i,"Share you on the jobing"));
+
+            }
+        });
 
 
 
     }
+
+
 
 
 
@@ -750,6 +810,22 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("MainActivity", "bitmap value : " + bitmap);
                 imgCameraPreview.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 1000, 1000, false));
+                try {
+                    File root = Environment.getExternalStorageDirectory();
+                    if (root.canWrite()){
+                        pic = new File(root, "pic.jpeg");
+                        FileOutputStream out = new FileOutputStream(pic);
+
+                        if (bitmap != null) {
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        }
+                        out.flush();
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    Log.e("BROKEN", "Could not write file " + e.getMessage());
+                }
+
 
 
             } else if (requestCode == REQUEST_CAMERA) {
@@ -771,6 +847,21 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 imgCameraPreview.setImageBitmap(Bitmap.createScaledBitmap(thumbnail, 1000, 1000, false));
+                try {
+                    File root = Environment.getExternalStorageDirectory();
+                    if (root.canWrite()){
+                        pic = new File(root, "pic.jpeg");
+                        FileOutputStream out = new FileOutputStream(pic);
+
+                        if (thumbnail != null) {
+                          thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        }
+                        out.flush();
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    Log.e("BROKEN", "Could not write file " + e.getMessage());
+                }
 
             }
 
