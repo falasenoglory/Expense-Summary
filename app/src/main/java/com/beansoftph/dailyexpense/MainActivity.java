@@ -723,25 +723,27 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-
+                ArrayList<Uri> uris = new ArrayList<Uri>();
                 Uri u1 = null;
                 u1 = Uri.fromFile(file);
-
-                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                uris.add(Uri.fromFile(file));
+                uris.add(Uri.fromFile(pic));
+                Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
                 sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"chanferolino@gmail.com"});
                 sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Expense Summary");
-                sendIntent.putExtra(Intent.EXTRA_STREAM, u1);
+                sendIntent.putExtra(Intent.EXTRA_STREAM, uris);
                 sendIntent.setType("text/html");
-                startActivity(sendIntent);
+                sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+                context.startActivity(Intent.createChooser(sendIntent, "Send mail..."));
 
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"chanferolino@gmail.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT,"On The Job");
-                Log.d("URI@!@#!#!@##!", Uri.fromFile(pic).toString() + "   " + pic.exists());
-                i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(pic));
-
-                i.setType("image/jpeg");
-                startActivity(Intent.createChooser(i,"Share you on the jobing"));
+//                Intent i = new Intent(Intent.ACTION_SEND);
+//                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"chanferolino@gmail.com"});
+//                i.putExtra(Intent.EXTRA_SUBJECT,"On The Job");
+//                Log.d("URI@!@#!#!@##!", Uri.fromFile(pic).toString() + "   " + pic.exists());
+//                i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(pic));
+//
+//                i.setType("image/jpeg");
+//                startActivity(Intent.createChooser(i,"Share you on the jobing"));
 
             }
         });
