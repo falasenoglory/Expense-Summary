@@ -98,6 +98,7 @@
     android:textAppearance="?android:attr/textAppearanceMedium"
     android:text="@string/suppliersTIN"
     android:id="@+id/textView3"
+    android:layout_marginTop="@dimen/margintop"
     android:layout_below="@+id/spnSupplierName"
     android:layout_alignStart="@+id/txtSuppliersTIN" />
 
@@ -138,14 +139,40 @@
     android:layout_alignEnd="@+id/spnSupplierName"
     android:layout_marginTop="@dimen/margintop"/>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Receipt No."
+            android:id="@+id/textViews"
+            android:layout_marginTop="@dimen/margintop"
+            android:layout_below="@+id/spnTypeofReceipt"
+            android:layout_alignStart="@+id/spnTypeofReceipt" />
+
+        <EditText
+            android:id="@+id/txtReceiptNo"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margintop"
+            android:background="@drawable/edtstyle"
+            android:textSize="@dimen/fontSize"
+            android:layout_below="@+id/textViews"
+            android:layout_marginTop="@dimen/margintop"
+            android:layout_alignParentEnd="true"
+            android:inputType="number|numberDecimal" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Amount"
             android:id="@+id/textView5"
-            android:layout_below="@+id/spnTypeofReceipt"
-            android:layout_alignStart="@+id/spnTypeofReceipt" />
+            android:layout_marginTop="@dimen/margintop"
+            android:layout_below="@+id/txtReceiptNo"
+            android:layout_alignStart="@+id/txtReceiptNo" />
         <EditText
             android:id="@+id/txtAmount"
             android:layout_marginLeft="15dp"
@@ -167,6 +194,7 @@
             android:text="@string/amountDesignation"
             android:id="@+id/d1"
             android:layout_below="@+id/txtAmount"
+            android:layout_marginTop="@dimen/margintop"
             android:layout_alignStart="@+id/txtAmount" />
         <Spinner
             android:layout_width="50dp"
@@ -185,6 +213,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/debitLabel"
             android:id="@+id/d2"
+            android:layout_marginTop="@dimen/margintop"
             android:layout_below="@+id/spnAmountDesignation"
             android:layout_alignStart="@+id/txtAmount"
             android:layout_alignEnd="@+id/d1" />
@@ -207,6 +236,7 @@
             android:text="@string/creditLabel"
             android:id="@+id/d3"
             android:layout_below="@+id/spnDebitLabel"
+            android:layout_marginTop="@dimen/margintop"
             android:layout_alignStart="@+id/txtAmount"
             android:layout_alignEnd="@+id/d2" />
         <Spinner

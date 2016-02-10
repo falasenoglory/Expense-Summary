@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spnSuppliersName;
     private EditText txtSupplierTin; // dependent to Supplier Name
     private Spinner spnTypeOfReceipt;
+    private EditText txtReceiptNo;
     private EditText txtAmount;
     private Spinner spnAmountDesignation;
     private Spinner spnDebitLabel;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         spnSuppliersName = (Spinner) findViewById(R.id.spnSupplierName);
         txtSupplierTin = (EditText) findViewById(R.id.txtSuppliersTIN);
         spnTypeOfReceipt = (Spinner) findViewById(R.id.spnTypeofReceipt);
+        txtReceiptNo=(EditText)findViewById(R.id.txtReceiptNo);
         txtAmount = (EditText) findViewById(R.id.txtAmount);
         spnAmountDesignation = (Spinner) findViewById(R.id.spnAmountDesignation);
         spnDebitLabel = (Spinner) findViewById(R.id.spnDebitLabel);
@@ -696,8 +698,37 @@ public class MainActivity extends AppCompatActivity {
         imbSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String columnString =   "\"Date\",\"Suppliers Name\",\"Suppliers Tin\",\"Type of Receipt\",\"Amount\",\"AmountDesignation\",\"Debit\",\"Credit\"";
-                String dataString   =   "\"" + txtDate.getText() +"\",\"" + spnSuppliersName.getSelectedItem().toString() + "\",\"" + txtSupplierTin.getText() + "\",\"" + spnTypeOfReceipt.getSelectedItem().toString()+ "\",\"" + txtAmount.getText()+ "\",\"" + spnAmountDesignation.getSelectedItem().toString()+ "\",\"" + spnDebitLabel.getSelectedItem().toString()+ "\",\"" +spnCreditLabel.getSelectedItem().toString() + "\"";
+
+                String suppliersName,typeRec,amountdes,debla,crela;
+
+                    suppliersName=spnSuppliersName.getSelectedItem().toString();
+                    typeRec=spnTypeOfReceipt.getSelectedItem().toString();
+                    amountdes=spnAmountDesignation.getSelectedItem().toString();
+                    debla=spnDebitLabel.getSelectedItem().toString();
+                    crela=spnCreditLabel.getSelectedItem().toString();
+
+                if(suppliersName.equals("..."))
+                    suppliersName="";
+                if(typeRec.equals("..."))
+                    typeRec="";
+                if(amountdes.equals("..."))
+                    amountdes="";
+                if(debla.equals("..."))
+                    debla="";
+                if(crela.equals("..."))
+                    crela="";
+
+                String columnString =   "\"Date\",\"Suppliers Name\",\"Suppliers Tin\",\"Type of Receipt\"" +
+                        ",\"Receipt No.\",\"Amount\",\"AmountDesignation\",\"Debit\",\"Credit\"";
+                String dataString   =   "\"" + txtDate.getText() +"\",\"" +
+                                                suppliersName + "\",\"" +
+                                                txtSupplierTin.getText() + "\",\"" +
+                                                typeRec+ "\",\""+
+                                                txtReceiptNo.getText()+ "\",\"" +
+                                                txtAmount.getText()+ "\",\"" +
+                                                amountdes+ "\",\"" +
+                                                debla+ "\",\"" +
+                                                crela + "\"";
                 String combinedString = columnString + "\n" + dataString;
 
 
@@ -727,10 +758,12 @@ public class MainActivity extends AppCompatActivity {
                 Uri u1 = null;
                 u1 = Uri.fromFile(file);
                 uris.add(Uri.fromFile(file));
-                uris.add(Uri.fromFile(pic));
+                if(pic!=null) {
+                    uris.add(Uri.fromFile(pic));
+                }
                 Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
                 sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"chanferolino@gmail.com"});
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Expense Summary");
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, txtDate.getText().toString());
                 sendIntent.putExtra(Intent.EXTRA_STREAM, uris);
                 sendIntent.setType("text/html");
                 sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
