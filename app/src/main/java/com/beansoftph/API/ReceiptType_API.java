@@ -21,7 +21,7 @@ public class ReceiptType_API {
 
     public static final String API_URL = "http://expensesummary.webraw.net/db_api/receipt_types";
 
-    public static ArrayList<String> getReceiptType(String sring, @NonNull String requestMethod) {
+    public static ArrayList<ReceiptType> getReceiptType(String sring, @NonNull String requestMethod) {
         String json = HttpUtils.getResponse(API_URL, requestMethod);
 
         if (TextUtils.isEmpty(json)) {
@@ -32,7 +32,7 @@ public class ReceiptType_API {
 
         // Here we will now parse the json response and convert it into a Weather object.
         String name;
-        ArrayList<String> rectype;
+        ArrayList<ReceiptType> rectype;
         rectype = new ArrayList<>();
 
 //        try {
@@ -56,6 +56,7 @@ public class ReceiptType_API {
 //        }
         JSONObject jObj = null;
         try {
+            ReceiptType rec = null;
             jObj = new JSONObject(json);
             Iterator<String> keys = jObj.keys();
             while( keys.hasNext() )
@@ -63,7 +64,8 @@ public class ReceiptType_API {
                 String key = keys.next();
                 JSONObject w0 = jObj.getJSONObject(key);
                 name = w0.getString("name").toUpperCase();
-                rectype.add(name);
+                rec = new ReceiptType(name);
+                rectype.add(rec);
 
 
             }
