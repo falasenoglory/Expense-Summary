@@ -7,13 +7,14 @@ public class Supplier {
 
     private String SupplierName;
     private String TIN;
-    private String SObjectID;
 
-    public Supplier(String supplierName, String TIN, String SObjectID) {
+
+    public Supplier(String supplierName, String TIN) {
         SupplierName = supplierName;
         this.TIN = TIN;
-        this.SObjectID = SObjectID;
     }
+
+
 
     public String getSupplierName() {
         return SupplierName;
@@ -31,11 +32,4 @@ public class Supplier {
         this.TIN = TIN;
     }
 
-    public String getSObjectID() {
-        return SObjectID;
-    }
-
-    public void setSObjectID(String SObjectID) {
-        this.SObjectID = SObjectID;
-    }
 }

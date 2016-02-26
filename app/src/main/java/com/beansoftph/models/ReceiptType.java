@@ -6,12 +6,11 @@ package com.beansoftph.models;
 public class ReceiptType {
 
     private String TypeOfReceipt;
-    private String RObjectID;
 
     public ReceiptType(String typeOfReceipt, String RObjectID) {
         TypeOfReceipt = typeOfReceipt;
-        this.RObjectID = RObjectID;
-    }
+
+}
 
     public String getTypeOfReceipt() {
         return TypeOfReceipt;
@@ -21,11 +20,4 @@ public class ReceiptType {
         TypeOfReceipt = typeOfReceipt;
     }
 
-    public String getRObjectID() {
-        return RObjectID;
-    }
-
-    public void setRObjectID(String RObjectID) {
-        this.RObjectID = RObjectID;
-    }
 }
