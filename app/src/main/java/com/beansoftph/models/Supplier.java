@@ -10,7 +10,7 @@ public class Supplier {
 
 
     public Supplier(String supplierName, String TIN) {
-        SupplierName = supplierName;
+        this.SupplierName = supplierName;
         this.TIN = TIN;
     }
 
