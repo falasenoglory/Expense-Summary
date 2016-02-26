@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Christian on 2/26/2016.
@@ -34,29 +35,53 @@ public class Suppliers_API {
         ArrayList<Supplier> suppList;
         suppList = new ArrayList<>();
 
+//
+//        try {
+//
+//
+//            Supplier supplier = null;
+//            JSONArray jArray = new JSONArray(json);
+//            JSONObject w0 = jArray.getJSONObject(50);
+//
+//            Log.d("Hohoho", jArray.toString());
+//            for (int i=0;i<jArray.length();i++){
+//                name = w0.getString("name").toUpperCase();
+//                tin = w0.getString("tin").toUpperCase();
+//                supplier = new Supplier(name,
+//                        tin);
+//                suppList.add(supplier);
+//
+//            }
+//            return suppList;
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
 
+        JSONObject jObj = null;
         try {
-
-
             Supplier supplier = null;
-            JSONArray jArray = new JSONArray(json);
-            JSONObject w0 = jArray.getJSONObject(50);
-
-            Log.d("Hohoho", jArray.toString());
-            for (int i=0;i<jArray.length();i++){
+            jObj = new JSONObject(json);
+            Iterator<String> keys = jObj.keys();
+            while( keys.hasNext() )
+            {
+                String key = keys.next();
+                JSONObject w0 = jObj.getJSONObject(key);
                 name = w0.getString("name").toUpperCase();
                 tin = w0.getString("tin").toUpperCase();
                 supplier = new Supplier(name,
                         tin);
                 suppList.add(supplier);
 
+
             }
             return suppList;
-
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
+
 
     }
 }
