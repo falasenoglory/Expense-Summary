@@ -9,7 +9,7 @@ public class ChartOfAccounts {
     private String AccountName;
 
 
-    public ChartOfAccounts(String accountName, String CObjectID) {
+    public ChartOfAccounts(String accountName) {
         AccountName = accountName;
     }
 
