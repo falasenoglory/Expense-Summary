@@ -157,8 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        supplier = new Supplier(obj.getObjectId(),
-                                obj.getString("Name"),
+                        supplier = new Supplier(obj.getString("Name"),
                                 obj.getString("Tin"));
                         supp.add(supplier);
                         listSupp.add(obj.getString("Name"));
@@ -297,8 +296,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        receipt = new ReceiptType(obj.getObjectId(),
-                                obj.getString("Type"));
+                        receipt = new ReceiptType(obj.getString("Type"));
 
                         rec.add(receipt);
                         listReceipt.add(obj.getString("Type"));
@@ -412,8 +410,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        receipt = new AmountDesignation(obj.getObjectId(),
-                                obj.getString("Type"));
+                        receipt = new AmountDesignation(obj.getString("Type"));
 
                         data.add(receipt);
                         Lad.add(obj.getString("Type"));
@@ -523,8 +520,8 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        receipt = new ChartOfAccounts(obj.getString("Name_of_Account"),
-                                obj.getObjectId());
+                        receipt = new ChartOfAccounts(obj.getString("Name_of_Account")
+                                );
 
                         COAL.add(receipt);
                         COA.add(obj.getString("Name_of_Account"));

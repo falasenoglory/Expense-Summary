@@ -7,7 +7,7 @@ public class ReceiptType {
 
     private String TypeOfReceipt;
 
-    public ReceiptType(String typeOfReceipt, String RObjectID) {
+    public ReceiptType(String typeOfReceipt) {
         TypeOfReceipt = typeOfReceipt;
 
 }

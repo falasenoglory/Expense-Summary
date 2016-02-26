@@ -8,7 +8,7 @@ public class AmountDesignation {
     private String  AmountDesig;
 
 
-    public AmountDesignation(String amountDesig, String AObjectID) {
+    public AmountDesignation(String amountDesig) {
         AmountDesig = amountDesig;
 
     }
