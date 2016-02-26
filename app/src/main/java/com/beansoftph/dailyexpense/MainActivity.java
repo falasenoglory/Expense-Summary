@@ -157,7 +157,8 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        supplier = new Supplier(obj.getString("Name"),
+                        supplier = new Supplier(
+                                obj.getString("Name"),
                                 obj.getString("Tin"));
                         supp.add(supplier);
                         listSupp.add(obj.getString("Name"));
@@ -296,7 +297,8 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        receipt = new ReceiptType(obj.getString("Type"));
+                        receipt = new ReceiptType(
+                                obj.getString("Type"));
 
                         rec.add(receipt);
                         listReceipt.add(obj.getString("Type"));
@@ -410,7 +412,8 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        receipt = new AmountDesignation(obj.getString("Type"));
+                        receipt = new AmountDesignation(
+                                obj.getString("Type"));
 
                         data.add(receipt);
                         Lad.add(obj.getString("Type"));
@@ -449,7 +452,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // get prompts.xml view
                     LayoutInflater li = LayoutInflater.from(MainActivity.this);
-                    View promptsView = li.inflate(R.layout.prompts_amount_designation, null);
+                    View promptsView = li.inflate(R.layout.prompts_Amount_Designation, null);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             MainActivity.this);
@@ -520,8 +523,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < objects.size(); i++) {
 
                         obj = objects.get(i);
-                        receipt = new ChartOfAccounts(obj.getString("Name_of_Account")
-                                );
+                        receipt = new ChartOfAccounts(obj.getString("Name_of_Account"));
 
                         COAL.add(receipt);
                         COA.add(obj.getString("Name_of_Account"));
@@ -561,7 +563,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // get prompts.xml view
                     LayoutInflater li = LayoutInflater.from(MainActivity.this);
-                    View promptsView = li.inflate(R.layout.prompts_coa, null);
+                    View promptsView = li.inflate(R.layout.prompts_COA, null);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             MainActivity.this);
@@ -628,7 +630,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // get prompts.xml view
                     LayoutInflater li = LayoutInflater.from(MainActivity.this);
-                    View promptsView = li.inflate(R.layout.prompts_coa, null);
+                    View promptsView = li.inflate(R.layout.prompts_COA, null);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             MainActivity.this);
