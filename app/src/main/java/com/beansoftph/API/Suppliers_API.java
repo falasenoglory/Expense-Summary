@@ -7,7 +7,6 @@ import android.util.Log;
 import com.beansoftph.models.Supplier;
 import com.beansoftph.utils.HttpUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,7 +20,7 @@ public class Suppliers_API {
 
     public static final String API_URL = "http://expensesummary.webraw.net/db_api/suppliers";
 
-    public static ArrayList<Supplier> getSuppliers(String sring, @NonNull String requestMethod) {
+    public static ArrayList<Supplier> getSuppliers( @NonNull String requestMethod) {
         String json = HttpUtils.getResponse(API_URL, requestMethod);
 
         if (TextUtils.isEmpty(json)) {

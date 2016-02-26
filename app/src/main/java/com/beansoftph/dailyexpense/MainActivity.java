@@ -26,6 +26,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.beansoftph.API.AmountDesignation_API;
+import com.beansoftph.API.CreditDebit_API;
+import com.beansoftph.API.ReceiptType_API;
+import com.beansoftph.API.Suppliers_API;
 import com.beansoftph.models.AmountDesignation;
 import com.beansoftph.models.ChartOfAccounts;
 import com.beansoftph.models.ReceiptType;
@@ -74,15 +78,17 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<AmountDesignation>LAmountdesignation= new ArrayList<>();
     private ArrayList<ChartOfAccounts>LCOA= new ArrayList<>();
     private ArrayList<Supplier>LSupplier= new ArrayList<>();
-    private ArrayList<ReceiptType>LRTc= new ArrayList<>();
+    private ArrayList<ReceiptType>LRT= new ArrayList<>();
 
 
-    List<String> Lad= new ArrayList<>();
+
+    List<String> SAmountDesignation= new ArrayList<>();
+    List<String> SSupplier = new ArrayList<String>();
+    List<String> SCOA= new ArrayList<>();
+    List<String> SReceiptType = new ArrayList<String>();
+
     String COA_type;
-    List<String> COA= new ArrayList<>();
     String ad_type;
-    List<String> listSupp = new ArrayList<String>();
-    List<String> listReceipt = new ArrayList<String>();
     String suppname,receipt_type;
     Context context;
     /**
@@ -143,48 +149,42 @@ public class MainActivity extends AppCompatActivity {
 
         /////////// GET ARRAY LISTS FROM APIS ////////////////////////
 
-       //     LAmountdesignation=AmountDesignation
+            LAmountdesignation= AmountDesignation_API.getAmountDesignations("GET");
+            LSupplier= Suppliers_API.getSuppliers("GET");
+            LCOA= CreditDebit_API.getCreditDebit_Labels("GET");
+            LRT= ReceiptType_API.getReceiptType("GET");
 
+        // to String arrays ->>>
+
+        for(int i=0;i<LSupplier.size();i++)
+        {
+            SSupplier.add(LSupplier.get(i).getSupplierName());
+        }
+        for(int i=0;i<LRT.size();i++)
+        {
+            SReceiptType.add(LRT.get(i).getTypeOfReceipt());
+        }
+        for(int i=0;i<LAmountdesignation.size();i++)
+        {
+            SAmountDesignation.add(LAmountdesignation.get(i).getAmountDesig());
+        }
+        for(int i=0;i<LCOA.size();i++)
+        {
+            SCOA.add(LCOA.get(i).getAccountName());
+        }
+
+
+
+        /////////////////////////////////////////////////////////////
 
         /// START OF SUPPLIER FUNCTIONALITIES
 
-        Toast.makeText(getApplicationContext(), "Wa pa sa parse", Toast.LENGTH_LONG).show();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Supplier_Name");
-        query.orderByAscending("createdAt");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-
-                if (e == null) {
-                    Supplier supplier = null;
-                    ParseObject obj;
-                    for (int i = 0; i < objects.size(); i++) {
-
-                        obj = objects.get(i);
-                        supplier = new Supplier(
-                                obj.getString("Name"),
-                                obj.getString("Tin"));
-                        //supp.add(supplier);
-                        listSupp.add(obj.getString("Name"));
-                        Log.d("MainActivity", "Hehe : " + obj.getString("Name"));
-                        Toast.makeText(getApplicationContext(), obj.getString("Name") + "Parse", Toast.LENGTH_LONG).show();
 
 
-                        Log.d("MainActivity", "Kasud sa if");
-                    }
-                    listSupp.add("Others");
-
-                }//End if
-                Log.d("MainActivity", "Wa kasud sa if : " + e);
-            }
-        });
-
-        Toast.makeText(getApplicationContext(),"Gawas sa Parse", Toast.LENGTH_LONG).show();
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, listSupp);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, SSupplier);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapter.notifyDataSetChanged();
-        listSupp.add("...");
+        SSupplier.add("...");
 
         dataAdapter.notifyDataSetChanged();
 
@@ -246,15 +246,15 @@ public class MainActivity extends AppCompatActivity {
                                             ParseObject newsupplier = new ParseObject("Supplier_Name");
                                             if (SupplierName.getText() != null && SupplierTin.getText() != null)
                                             {
-                                                String holder= listSupp.get(listSupp.size()-1);
-                                                listSupp.set(listSupp.size()-1,SupplierName.getText().toString());
-                                                listSupp.add("Others");
+                                                String holder= SSupplier.get(SSupplier.size() - 1);
+                                                SSupplier.set(SSupplier.size()-1,SupplierName.getText().toString());
+                                                SSupplier.add("Others");
                                             }
                                             newsupplier.put("Name", SupplierName.getText().toString());
                                             newsupplier.put("Tin", SupplierTin.getText().toString());
                                             newsupplier.saveInBackground();
                                             txtSupplierTin.setText(SupplierTin.getText());
-                                            spnSuppliersName.setSelection(listSupp.size() - 2);
+                                            spnSuppliersName.setSelection(SSupplier.size() - 2);
                                         }
                                     })
                             .setNegativeButton("Cancel",
@@ -287,48 +287,17 @@ public class MainActivity extends AppCompatActivity {
         dataAdapter.notifyDataSetChanged();
         //END OF SUPPLIER FUNCTIONALITIES
 
+
+
         // START OF TYPE OF RECEIPT FUNCTIONALITIES
-        Toast.makeText(getApplicationContext(), "Wa pa sa parse2", Toast.LENGTH_LONG).show();
-        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Type_of_receipt");
-        query2.orderByAscending("createdAt");
-        query2.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
 
-                if (e == null) {
-                    ReceiptType receipt = null;
-                    ParseObject obj;
-                    for (int i = 0; i < objects.size(); i++) {
-
-                        obj = objects.get(i);
-                        receipt = new ReceiptType(
-                                obj.getString("Type"));
-
-                        //rec.add(receipt);
-                        listReceipt.add(obj.getString("Type"));
-                        Log.d("MainActivity", "Hehe : " + obj.getString("Type"));
-                        Toast.makeText(getApplicationContext(), obj.getString("Type") + "Parse", Toast.LENGTH_LONG).show();
-
-
-                        Log.d("MainActivity", "Kasud sa if2");
-                    }
-                    listReceipt.add("Others");
-
-                }//End if
-                Log.d("MainActivity", "Wa kasud sa if2 : " + e);
-            }
-        });
-
-
-        Toast.makeText(getApplicationContext(),"Gawas sa Parse", Toast.LENGTH_LONG).show();
-
-        ArrayAdapter<String> receiptAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, listReceipt);
+        ArrayAdapter<String> receiptAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, SReceiptType);
         receiptAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         receiptAdapter.notifyDataSetChanged();
 
         receiptAdapter.notifyDataSetChanged();
         spnTypeOfReceipt.setAdapter(receiptAdapter);
-        listReceipt.add("...");
+        SReceiptType.add("...");
         spnTypeOfReceipt.setSelected(false);
         spnTypeOfReceipt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -363,13 +332,13 @@ public class MainActivity extends AppCompatActivity {
                                             ParseObject newreceipt = new ParseObject("Type_of_receipt");
                                             if (etTOR.getText() != null)
                                             {
-                                                String holder= listReceipt.get(listReceipt.size()-1);
-                                                listReceipt.set(listReceipt.size()-1,etTOR.getText().toString());
-                                                listReceipt.add("Others");
+                                                String holder= SReceiptType.get(SReceiptType.size()-1);
+                                                SReceiptType.set(SReceiptType.size()-1,etTOR.getText().toString());
+                                                SReceiptType.add("Others");
                                             }
                                             newreceipt.put("Type", etTOR.getText().toString());
                                             newreceipt.saveInBackground();
-                                            spnTypeOfReceipt.setSelection(listReceipt.size() - 2);
+                                            spnTypeOfReceipt.setSelection(SReceiptType.size() - 2);
                                         }
                                     })
                             .setNegativeButton("Cancel",
@@ -402,46 +371,17 @@ public class MainActivity extends AppCompatActivity {
 
         // END OF TYPE OF RECEIPT FUNCTIONALITIES
 
+
+
+
         // START AMOUNT DESIGNATION FUNCTIONALITIES
-        Toast.makeText(getApplicationContext(), "Wa pa sa parse2", Toast.LENGTH_LONG).show();
-        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Amount_designation");
-        query3.orderByAscending("createdAt");
-        query3.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-
-                if (e == null) {
-                    AmountDesignation receipt = null;
-                    ParseObject obj;
-                    for (int i = 0; i < objects.size(); i++) {
-
-                        obj = objects.get(i);
-                        receipt = new AmountDesignation(
-                                obj.getString("Type"));
-
-                       // data.add(receipt);
-                        Lad.add(obj.getString("Type"));
-                        Log.d("MainActivity", "Hehe : " + obj.getString("Type"));
-                        Toast.makeText(getApplicationContext(), obj.getString("Type") + "Parse", Toast.LENGTH_LONG).show();
 
 
-                        Log.d("MainActivity", "Kasud sa if2");
-                    }
-                    Lad.add("Others");
-
-                }//End if
-                Log.d("MainActivity", "Wa kasud sa if2 : " + e);
-            }
-        });
-
-
-        Toast.makeText(getApplicationContext(),"Gawas sa Parse", Toast.LENGTH_LONG).show();
-
-        ArrayAdapter<String> ADAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, Lad);
+        ArrayAdapter<String> ADAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, SAmountDesignation);
         ADAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ADAdapter.notifyDataSetChanged();
         spnAmountDesignation.setAdapter(ADAdapter);
-        Lad.add("...");
+        SAmountDesignation.add("...");
         spnAmountDesignation.setSelected(false);
         spnAmountDesignation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -476,13 +416,13 @@ public class MainActivity extends AppCompatActivity {
                                             ParseObject newreceipt = new ParseObject("Amount_designation");
                                             if (etTOR.getText() != null)
                                             {
-                                                String holder= Lad.get(Lad.size()-1);
-                                                Lad.set(Lad.size()-1,etTOR.getText().toString());
-                                                Lad.add("Others");
+                                                String holder= SAmountDesignation.get(SAmountDesignation.size()-1);
+                                                SAmountDesignation.set(SAmountDesignation.size()-1,etTOR.getText().toString());
+                                                SAmountDesignation.add("Others");
                                             }
                                             newreceipt.put("Type", etTOR.getText().toString());
                                             newreceipt.saveInBackground();
-                                            spnAmountDesignation.setSelection(Lad.size() - 2);
+                                            spnAmountDesignation.setSelection(SAmountDesignation.size() - 2);
                                         }
                                     })
                             .setNegativeButton("Cancel",
@@ -514,41 +454,11 @@ public class MainActivity extends AppCompatActivity {
 
         // START CHART OF ACCOUNTS FUNCTIONALITIES
 
-        Toast.makeText(getApplicationContext(), "Wa pa sa parse2", Toast.LENGTH_LONG).show();
-        ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Chart_of_Accounts");
-        query4.orderByAscending("createdAt");
-        query4.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
 
-                if (e == null) {
-                    ChartOfAccounts receipt = null;
-                    ParseObject obj;
-                    for (int i = 0; i < objects.size(); i++) {
-
-                        obj = objects.get(i);
-                        receipt = new ChartOfAccounts(obj.getString("Name_of_Account"));
-
-                        ///COAL.add(receipt);
-                        COA.add(obj.getString("Name_of_Account"));
-                        Log.d("MainActivity", "Hehe : " + obj.getString("Name_of_Account"));
-                        Toast.makeText(getApplicationContext(), obj.getString("Name_of_Account") + "Parse", Toast.LENGTH_LONG).show();
-
-
-                        Log.d("MainActivity", "Kasud sa if2");
-                    }
-                    COA.add("Others");
-
-                }//End if
-                Log.d("MainActivity", "Wa kasud sa if2 : " + e);
-            }
-        });
-
-
-        ArrayAdapter<String> COAAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, COA);
+        ArrayAdapter<String> COAAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, SCOA);
         COAAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         COAAdapter.notifyDataSetChanged();
-        COA.add("...");
+        SCOA.add("...");
         spnDebitLabel.setAdapter(COAAdapter);
         spnCreditLabel.setAdapter(COAAdapter);
 
@@ -586,13 +496,13 @@ public class MainActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int id) {
                                             ParseObject newreceipt = new ParseObject("Chart_of_Accounts");
                                             if (etTOR.getText() != null) {
-                                                String holder = COA.get(COA.size() - 1);
-                                                COA.set(COA.size() - 1, etTOR.getText().toString());
-                                                COA.add("Others");
+                                                String holder = SCOA.get(SCOA.size() - 1);
+                                                SCOA.set(SCOA.size() - 1, etTOR.getText().toString());
+                                                SCOA.add("Others");
                                             }
                                             newreceipt.put("Name_of_Account", etTOR.getText().toString());
                                             newreceipt.saveInBackground();
-                                            spnDebitLabel.setSelection(COA.size() - 2);
+                                            spnDebitLabel.setSelection(SCOA.size() - 2);
                                         }
                                     })
                             .setNegativeButton("Cancel",
@@ -653,13 +563,13 @@ public class MainActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int id) {
                                             ParseObject newreceipt = new ParseObject("Chart_of_Accounts");
                                             if (etTOR.getText() != null) {
-                                                String holder= COA.get(COA.size()-1);
-                                                COA.set(COA.size()-1,etTOR.getText().toString());
-                                                COA.add("Others");
+                                                String holder= SCOA.get(SCOA.size()-1);
+                                                SCOA.set(SCOA.size()-1,etTOR.getText().toString());
+                                                SCOA.add("Others");
                                             }
                                             newreceipt.put("Name_of_Account", etTOR.getText().toString());
                                             newreceipt.saveInBackground();
-                                            spnCreditLabel.setSelection(COA.size() - 2);
+                                            spnCreditLabel.setSelection(SCOA.size() - 2);
                                         }
                                     })
                             .setNegativeButton("Cancel",

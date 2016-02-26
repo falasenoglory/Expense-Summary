@@ -20,7 +20,7 @@ public class AmountDesignation_API {
 
     public static final String API_URL = "http://expensesummary.webraw.net/db_api/amount_designations";
 
-    public static ArrayList<AmountDesignation> getAmountDesignations(String sring, @NonNull String requestMethod) {
+    public static ArrayList<AmountDesignation> getAmountDesignations( @NonNull String requestMethod) {
         String json = HttpUtils.getResponse(API_URL, requestMethod);
 
         if (TextUtils.isEmpty(json)) {
