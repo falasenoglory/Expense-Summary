@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.beansoftph.models.ChartOfAccounts;
 import com.beansoftph.utils.HttpUtils;
 
 import org.json.JSONArray;
@@ -20,7 +21,7 @@ public class CreditDebit_API {
 
     public static final String API_URL = "http://expensesummary.webraw.net/db_api/credit_debit_labels";
 
-    public static ArrayList<String> getCreditDebit_Labels(String sring, @NonNull String requestMethod) {
+    public static ArrayList<ChartOfAccounts> getCreditDebit_Labels(String sring, @NonNull String requestMethod) {
         String json = HttpUtils.getResponse(API_URL, requestMethod);
 
         if (TextUtils.isEmpty(json)) {
@@ -31,7 +32,7 @@ public class CreditDebit_API {
 
         // Here we will now parse the json response and convert it into a Weather object.
         String name;
-        ArrayList<String> CreditDebit_Lables;
+        ArrayList<ChartOfAccounts> CreditDebit_Lables;
         CreditDebit_Lables = new ArrayList<>();
 
 //        try {
@@ -57,6 +58,7 @@ public class CreditDebit_API {
 
         JSONObject jObj = null;
         try {
+            ChartOfAccounts cht = null;
             jObj = new JSONObject(json);
             Iterator<String> keys = jObj.keys();
             while( keys.hasNext() )
@@ -64,7 +66,8 @@ public class CreditDebit_API {
                 String key = keys.next();
                 JSONObject w0 = jObj.getJSONObject(key);
                 name = w0.getString("name").toUpperCase();
-                CreditDebit_Lables.add(name);
+                cht = new ChartOfAccounts(name);
+                CreditDebit_Lables.add(cht);
 
 
             }

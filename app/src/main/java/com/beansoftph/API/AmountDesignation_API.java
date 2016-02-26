@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.beansoftph.models.AmountDesignation;
 import com.beansoftph.utils.HttpUtils;
 
 import org.json.JSONArray;
@@ -20,7 +21,7 @@ public class AmountDesignation_API {
 
     public static final String API_URL = "http://expensesummary.webraw.net/db_api/amount_designations";
 
-    public static ArrayList<String> getAmountDesignations(String sring, @NonNull String requestMethod) {
+    public static ArrayList<AmountDesignation> getAmountDesignations(String sring, @NonNull String requestMethod) {
         String json = HttpUtils.getResponse(API_URL, requestMethod);
 
         if (TextUtils.isEmpty(json)) {
@@ -31,7 +32,7 @@ public class AmountDesignation_API {
 
         // Here we will now parse the json response and convert it into a Weather object.
         String name;
-        ArrayList<String> amountDesignation;
+        ArrayList<AmountDesignation> amountDesignation;
         amountDesignation = new ArrayList<>();
 
 //        try {
@@ -57,6 +58,7 @@ public class AmountDesignation_API {
 
         JSONObject jObj = null;
         try {
+            AmountDesignation amt = null;
             jObj = new JSONObject(json);
             Iterator<String> keys = jObj.keys();
             while( keys.hasNext() )
@@ -64,8 +66,8 @@ public class AmountDesignation_API {
                 String key = keys.next();
                 JSONObject w0 = jObj.getJSONObject(key);
                 name = w0.getString("name").toUpperCase();
-
-                amountDesignation.add(name);
+                amt = new AmountDesignation(name);
+                amountDesignation.add(amt);
 
 
             }
