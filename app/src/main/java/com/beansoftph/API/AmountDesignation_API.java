@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.beansoftph.utils.HttpUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

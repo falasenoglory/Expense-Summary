@@ -68,19 +68,20 @@ public class MainActivity extends AppCompatActivity {
     File file   = null;
     Bitmap thumbnail;
     File pic;
-    private ArrayList<AmountDesignation>data= new ArrayList<>();
+
+
+
+    private ArrayList<AmountDesignation>LAmountdesignation= new ArrayList<>();
+    private ArrayList<ChartOfAccounts>LCOA= new ArrayList<>();
+    private ArrayList<Supplier>LSupplier= new ArrayList<>();
+    private ArrayList<ReceiptType>LRTc= new ArrayList<>();
+
+
     List<String> Lad= new ArrayList<>();
     String COA_type;
-
-    private ArrayList<ChartOfAccounts>COAL= new ArrayList<>();
     List<String> COA= new ArrayList<>();
     String ad_type;
-
-
-
-    private ArrayList<Supplier>supp= new ArrayList<>();
     List<String> listSupp = new ArrayList<String>();
-    private ArrayList<ReceiptType>rec= new ArrayList<>();
     List<String> listReceipt = new ArrayList<String>();
     String suppname,receipt_type;
     Context context;
@@ -140,7 +141,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //ParseAmountDesignation();
+        /////////// GET ARRAY LISTS FROM APIS ////////////////////////
+
+       //     LAmountdesignation=AmountDesignation
+
 
         /// START OF SUPPLIER FUNCTIONALITIES
 
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         supplier = new Supplier(
                                 obj.getString("Name"),
                                 obj.getString("Tin"));
-                        supp.add(supplier);
+                        //supp.add(supplier);
                         listSupp.add(obj.getString("Name"));
                         Log.d("MainActivity", "Hehe : " + obj.getString("Name"));
                         Toast.makeText(getApplicationContext(), obj.getString("Name") + "Parse", Toast.LENGTH_LONG).show();
@@ -300,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
                         receipt = new ReceiptType(
                                 obj.getString("Type"));
 
-                        rec.add(receipt);
+                        //rec.add(receipt);
                         listReceipt.add(obj.getString("Type"));
                         Log.d("MainActivity", "Hehe : " + obj.getString("Type"));
                         Toast.makeText(getApplicationContext(), obj.getString("Type") + "Parse", Toast.LENGTH_LONG).show();
@@ -415,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
                         receipt = new AmountDesignation(
                                 obj.getString("Type"));
 
-                        data.add(receipt);
+                       // data.add(receipt);
                         Lad.add(obj.getString("Type"));
                         Log.d("MainActivity", "Hehe : " + obj.getString("Type"));
                         Toast.makeText(getApplicationContext(), obj.getString("Type") + "Parse", Toast.LENGTH_LONG).show();
@@ -525,7 +529,7 @@ public class MainActivity extends AppCompatActivity {
                         obj = objects.get(i);
                         receipt = new ChartOfAccounts(obj.getString("Name_of_Account"));
 
-                        COAL.add(receipt);
+                        ///COAL.add(receipt);
                         COA.add(obj.getString("Name_of_Account"));
                         Log.d("MainActivity", "Hehe : " + obj.getString("Name_of_Account"));
                         Toast.makeText(getApplicationContext(), obj.getString("Name_of_Account") + "Parse", Toast.LENGTH_LONG).show();
