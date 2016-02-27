@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -40,6 +41,7 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -148,10 +150,16 @@ public class MainActivity extends AppCompatActivity {
 
         /////////// GET ARRAY LISTS FROM APIS ////////////////////////
 
-            LAmountdesignation= AmountDesignation_API.getAmountDesignations("GET");
-            LSupplier= Suppliers_API.getSuppliers("GET");
-            LCOA= CreditDebit_API.getCreditDebit_Labels("GET");
-            LRT= ReceiptType_API.getReceiptType("GET");
+            FetchAmountDesignationTask tad= new FetchAmountDesignationTask();
+            FetchSupplierTask tsup= new FetchSupplierTask();
+            FetchCOATask tcoa= new FetchCOATask();
+            FetchRTTask trt= new FetchRTTask();
+
+            tad.execute();
+            tsup.execute();
+            tcoa.execute();
+            trt.execute();
+
 
         // to String arrays ->>>
 
@@ -817,4 +825,64 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+    public class FetchAmountDesignationTask extends AsyncTask<String, Void, ArrayList<AmountDesignation>> {
+
+        @Override
+        protected ArrayList<AmountDesignation> doInBackground(String... params) {
+
+            return AmountDesignation_API.getAmountDesignations("GET");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<AmountDesignation> ad) {
+            super.onPostExecute(ad);
+            LAmountdesignation=ad;
+        }
+    }
+
+    public class FetchSupplierTask extends AsyncTask<String, Void, ArrayList<Supplier>> {
+
+        @Override
+        protected ArrayList<Supplier> doInBackground(String... params) {
+
+            return Suppliers_API.getSuppliers("GET");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Supplier> sup) {
+            super.onPostExecute(sup);
+            LSupplier=sup;
+        }
+    }
+    public class FetchCOATask extends AsyncTask<String, Void, ArrayList<ChartOfAccounts>> {
+
+        @Override
+        protected ArrayList<ChartOfAccounts> doInBackground(String... params) {
+
+            return CreditDebit_API.getCreditDebit_Labels("GET");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ChartOfAccounts> coa) {
+            super.onPostExecute(coa);
+            LCOA=coa;
+        }
+    }    public class FetchRTTask extends AsyncTask<String, Void, ArrayList<ReceiptType>> {
+
+        @Override
+        protected ArrayList<ReceiptType> doInBackground(String... params) {
+
+            return ReceiptType_API.getReceiptType("GET");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ReceiptType> rt) {
+            super.onPostExecute(rt);
+            LRT=rt;
+        }
+    }
+
+
 }
