@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // get prompts.xml view
                     LayoutInflater li = LayoutInflater.from(MainActivity.this);
-                    View promptsView = li.inflate(R.layout.prompts_Amount_Designation, null);
+                    View promptsView = li.inflate(R.layout.prompts_amount_designation, null);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             MainActivity.this);
@@ -476,7 +476,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // get prompts.xml view
                     LayoutInflater li = LayoutInflater.from(MainActivity.this);
-                    View promptsView = li.inflate(R.layout.prompts_COA, null);
+                    View promptsView = li.inflate(R.layout.prompts_coa, null);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             MainActivity.this);
@@ -543,7 +543,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // get prompts.xml view
                     LayoutInflater li = LayoutInflater.from(MainActivity.this);
-                    View promptsView = li.inflate(R.layout.prompts_COA, null);
+                    View promptsView = li.inflate(R.layout.prompts_coa, null);
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                             MainActivity.this);
