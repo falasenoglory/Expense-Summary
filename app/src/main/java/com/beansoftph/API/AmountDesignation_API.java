@@ -3,10 +3,12 @@ package com.beansoftph.API;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.beansoftph.models.AmountDesignation;
 import com.beansoftph.utils.HttpUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,10 +19,10 @@ import java.util.Iterator;
  * Created by Christian on 2/26/2016.
  */
 public class AmountDesignation_API {
-
+    public static ArrayList<AmountDesignation> amountDesignation = new ArrayList<>();
     public static final String API_URL = "http://expensesummary.webraw.net/db_api/amount_designations";
-
-    public static ArrayList<AmountDesignation> getAmountDesignations( @NonNull String requestMethod) {
+    //x
+    public ArrayList<AmountDesignation> getAmountDesignations(@NonNull String requestMethod) {
         String json = HttpUtils.getResponse(API_URL, requestMethod);
 
         if (TextUtils.isEmpty(json)) {
@@ -31,20 +33,21 @@ public class AmountDesignation_API {
 
         // Here we will now parse the json response and convert it into a Weather object.
         String name;
-        ArrayList<AmountDesignation> amountDesignation;
-        amountDesignation = new ArrayList<>();
+
+
 
 //        try {
 //
 //
 //
 //            JSONArray jArray = new JSONArray(json);
-//            JSONObject w0 = jArray.getJSONObject(50);
+//
 //
 //            Log.d("Hohoho", jArray.toString());
 //            for (int i=0;i<jArray.length();i++){
+//                JSONObject w0 = jArray.getJSONObject(i);
 //                name = w0.getString("name").toUpperCase();
-//                amountDesignation.add(name);
+//                amountDesignation.add(new AmountDesignation(name));
 //
 //            }
 //            return amountDesignation;
@@ -53,25 +56,28 @@ public class AmountDesignation_API {
 //            e.printStackTrace();
 //            return null;
 //        }
+//
 
 
-        JSONObject jObj = null;
         try {
-            AmountDesignation amt = null;
-            jObj = new JSONObject(json);
+
+           JSONObject jObj = new JSONObject(json);
             Iterator<String> keys = jObj.keys();
+//            Toast.makeText(AmountDesignation_API.this,"Sud sa try",Toast.LENGTH_LONG);
+            Log.d("chan", "sud sa try");
             while( keys.hasNext() )
             {
                 String key = keys.next();
                 JSONObject w0 = jObj.getJSONObject(key);
                 name = w0.getString("name").toUpperCase();
-                amt = new AmountDesignation(name);
-                amountDesignation.add(amt);
+                amountDesignation.add(new AmountDesignation(name));
+                Log.d("chan", "sud sa while");
 
 
             }
             return amountDesignation;
         } catch (JSONException e) {
+            Log.d("chan", "sud sa catch");
             e.printStackTrace();
             return null;
         }
